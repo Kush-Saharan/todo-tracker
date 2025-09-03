@@ -3,11 +3,10 @@
 
 {% block content %}
 
+
 <div class="container py-4">
-  <!-- Header -->
   <h2 class="text-center mb-4">My To-Do Tracker</h2>
 
-  <!-- Progress Bar -->
   <div class="mb-4">
     <label class="form-label">Progress</label>
     <div class="progress">
@@ -19,17 +18,22 @@
   </div>
 
   <div class="row">
-    <!-- Left Sidebar: Add Task -->
     <div class="col-md-3 mb-4">
       <div class="card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Add Task</h5>
-          <form method="POST" action="/add-todo">
+          <form method="POST" action="/task/add">
             <div class="mb-3">
-              <input type="text" class="form-control" placeholder="Enter task name">
+              <input type="task" name="task" class="form-control" placeholder="Enter task name">
             </div>
             <button type="submit" class="btn btn-primary w-100">Add Task</button>
           </form>
+          {% if message %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -39,6 +43,7 @@
         <div class="card-body">
           <h5 class="card-title">Tasks by Day</h5>
           <div class="table-responsive">
+            {% if tasks %}
             <table class="table table-bordered text-center align-middle"></table>
             <thead class="table-dark">
               <tr>
@@ -69,6 +74,9 @@
               </tr>
             </tbody>
             </table>
+            {% else %}
+            <p class="text-center text-muted">No tasks added yet. Add a task to get started!</p>
+            {% endif %}
           </div>
         </div>
       </div>

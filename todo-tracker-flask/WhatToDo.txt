@@ -1,0 +1,5 @@
+update task routes to make it able to render tasks in index.html
+make the days working in the index.html
+make add task working
+make update tasks working
+make the checkboxes so that im unable to edit them on next day

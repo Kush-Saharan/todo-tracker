@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}To-Do Tracker{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+  <!-- Header -->
+  <h2 class="text-center mb-4">My To-Do Tracker</h2>
+
+  <!-- Progress Bar -->
+  <div class="mb-4">
+    <label class="form-label">Progress</label>
+    <div class="progress">
+      <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30"
+        aria-valuemin="0" aria-valuemax="100">
+        30%
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Left Sidebar: Add Task -->
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Add Task</h5>
+          <form method="POST" action="/add-todo">
+            <div class="mb-3">
+              <input type="text" class="form-control" placeholder="Enter task name">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Add Task</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Tasks by Day</h5>
+          <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle"></table>
+            <thead class="table-dark">
+              <tr>
+                <th>Day</th>
+                {% for task in tasks %}
+                <th>{{ task.task_name }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Day 1</td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+              </tr>
+              <tr>
+                <td>Day 2</td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+              </tr>
+              <tr>
+                <td>Day 3</td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="checkbox"></td>
+              </tr>
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

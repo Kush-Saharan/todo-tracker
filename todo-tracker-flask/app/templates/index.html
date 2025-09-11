@@ -2,86 +2,93 @@
 {% block title %}To-Do Tracker{% endblock %}
 
 {% block content %}
-
-
 <div class="container py-4">
   <h2 class="text-center mb-4">My To-Do Tracker</h2>
 
+  <!-- Progress Bar -->
   <div class="mb-4">
     <label class="form-label">Progress</label>
     <div class="progress">
-      <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30"
-        aria-valuemin="0" aria-valuemax="100">
+      <div id="progress-bar" class="progress-bar" role="progressbar"
+           style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
         30%
       </div>
     </div>
   </div>
 
   <div class="row">
+    <!-- Left Column -->
     <div class="col-md-3 mb-4">
-      <div class="card shadow-sm">
+      
+      <!-- Add Task Card -->
+      <div class="card shadow-sm mb-3">
         <div class="card-body">
           <h5 class="card-title">Add Task</h5>
           <form method="POST" action="/task/add">
             <div class="mb-3">
-              <input type="task" name="task" class="form-control" placeholder="Enter task name">
+              <input type="text" name="task" class="form-control" placeholder="Enter task name" required>
             </div>
             <button type="submit" class="btn btn-primary w-100">Add Task</button>
           </form>
           {% if message %}
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
           {% endif %}
         </div>
       </div>
-    </div>
 
+      <!-- Save Progress Card (stacked below Add Task) -->
+      <!-- <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Save Progress</h5>
+          <form method="POST" action="/task/save">
+            <button type="submit" class="btn btn-success w-100">Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Right Column: Tasks Table -->
     <div class="col-md-9">
       <div class="card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Tasks by Day</h5>
+         <form method="POST" action="/task/save">
           <div class="table-responsive">
             {% if tasks %}
-            <table class="table table-bordered text-center align-middle"></table>
-            <thead class="table-dark">
-              <tr>
-                <th>Day</th>
-                {% for task in tasks %}
-                <th>{{ task.task_name }}</th>
+            <table class="table table-bordered text-center align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th>Day</th>
+                  {% for task in tasks %}
+                  <th>{{ task.task_name }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for day in range(number_of_days) %}
+                <tr>
+                  <td>Day {{ day }}</td>
+                  {% for task in tasks %}
+                  <td><input type="checkbox" 
+             name="progress" 
+             value="day{{ day }}_task{{ task.id }}"></td>
+                  {% endfor %}
+                </tr>
                 {% endfor %}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Day 1</td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
-              </tr>
-              <tr>
-                <td>Day 2</td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
-              </tr>
-              <tr>
-                <td>Day 3</td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
-                <td><input type="checkbox"></td>
-              </tr>
-            </tbody>
+              </tbody>
             </table>
             {% else %}
             <p class="text-center text-muted">No tasks added yet. Add a task to get started!</p>
             {% endif %}
           </div>
+          <button type="submit" class="btn btn-success mt-3">Save Progress</button>
+        </form>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 {% endblock content %}

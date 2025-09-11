@@ -1,11 +1,25 @@
 from app.main import db
-from datetime import datetime
+from datetime import date
 
 class Tasks(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     task_name=db.Column(db.String(200), nullable=False)
-    date=db.Column(db.String(500), default=datetime.utcnow())
-    completed=db.Column(db.BOOLEAN, default=0)
 
     def __repr__(self)->str:
         return f"{self.id} - {self.task}"
+    
+
+class Day(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False, default=date.today)
+
+
+
+class TaskStatus(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=False)
+    day_id = db.Column(db.Integer, db.ForeignKey('day.id'), nullable=False)
+    completed = db.Column(db.Boolean, default=False)
+
+    task = db.relationship('Tasks', backref='statuses')
+    day = db.relationship('Day', backref='statuses')

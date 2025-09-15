@@ -18,7 +18,7 @@ class Day(db.Model):
 class TaskStatus(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=False)
-    day_id = db.Column(db.Integer, db.ForeignKey('day.id'), nullable=False)
+    date = db.Column(db.Integer, db.ForeignKey('day.date'), nullable=False)
     completed = db.Column(db.Boolean, default=False)
 
     task = db.relationship('Tasks', backref='statuses')
